@@ -7,7 +7,7 @@ class Login extends React.Component {
       <h1>Login</h1>
       <Formik
         initialValues={{username: "username", password: "password"}}
-        onSubmit={(values) => this.props.handleLogin(values)}
+        onSubmit={() => {}}
       >
         <Form>
           <Field id="username" name="username" placeholder="Username"/>

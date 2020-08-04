@@ -1,7 +1,14 @@
 import React from 'react';
-import Login from './Login'
-import logo from './logo.svg';
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+
+import {LinkContainer} from 'react-router-bootstrap'
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+
+import Login from './Login'
 
 class App extends React.Component {
   constructor() {
@@ -15,28 +22,34 @@ class App extends React.Component {
   }
 
   render() {
-    if (!this.state.auth) {
-      return <Login handleLogin={this.handleLogin}/>
-    }
-
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo"/>
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      <Router>
+        <div>
+          <Navbar className="justify-content-center">
+              <Nav>
+                <LinkContainer to="/login"><Nav.Link>Login</Nav.Link></LinkContainer>
+                <LinkContainer to="/projects"><Nav.Link>Projects</Nav.Link></LinkContainer>
+                <LinkContainer to="/dashboard"><Nav.Link>Dashboard</Nav.Link></LinkContainer>
+                <LinkContainer to="/call"><Nav.Link>Call</Nav.Link></LinkContainer>
+              </Nav>
+          </Navbar>
+          <Switch>
+            <Route path="/login">
+              <Login/>
+            </Route>
+            <Route path="/projects">
+
+            </Route>
+            <Route path="/dashboard">
+
+            </Route>
+            <Route path="/call">
+
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    )
   }
 }
 

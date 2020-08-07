@@ -10,7 +10,7 @@ class Login extends React.Component {
         onSubmit={() => {}}
       >
         <Form>
-          <Field id="username" name="username" placeholder="Username"/>
+          <Field className="fieldMuted" id="username" name="username" placeholder="Username"/>
           <Field id="password" name="password" placeholder="password"/>
           <button type="submit">Submit</button>
         </Form>

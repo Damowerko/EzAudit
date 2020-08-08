@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.temp"
+        applicationId "com.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -181,6 +181,7 @@ android {
 }
 
 dependencies {
+    compile project(':WebRTCModule')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules

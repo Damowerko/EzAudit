@@ -6,52 +6,46 @@
  * @flow strict-local
  */
 
-import React from "react";
-import {SafeAreaView, Text, StatusBar} from "react-native";
-import {mediaDevices} from "react-native-webrtc";
+import React, {useState, useEffect} from "react";
+import {SafeAreaView, Text, StatusBar, StyleSheet} from "react-native";
+import {mediaDevices, RTCView} from "react-native-webrtc";
+
+const styles = StyleSheet.create({
+  viewer: {
+    flex: 1,
+    display: "flex",
+    backgroundColor: "#4F4",
+  },
+});
 
 const App: () => React$Node = () => {
-  let isFront = true;
-  mediaDevices.enumerateDevices().then((sourceInfos) => {
-    console.log(sourceInfos);
-    let videoSourceId;
-    for (let i = 0; i < sourceInfos.length; i++) {
-      const sourceInfo = sourceInfos[i];
-      if (
-        sourceInfo.kind === "videoinput" &&
-        sourceInfo.facing === (isFront ? "front" : "environment")
-      ) {
-        videoSourceId = sourceInfo.deviceId;
-      }
+  const [stream, setStream] = useState(null);
+
+  useEffect(() => {
+    if (!stream) {
+      (async () => {
+        const availableDevices = await mediaDevices.enumerateDevices();
+        const {deviceId: sourceId} = availableDevices.find(
+          (device) => device.kind === "videoinput" && device.facing === "front",
+        );
+        console.log(sourceId);
+        availableDevices.forEach((device) => console.log(device));
+        const streamBuffer = await mediaDevices.getUserMedia({
+          audio: true,
+          video: true,
+          optional: [{sourceId}],
+        });
+        setStream(streamBuffer);
+      })();
     }
-    mediaDevices
-      .getUserMedia({
-        audio: true,
-        video: {
-          mandatory: {
-            minWidth: 500, // Provide your own width, height and frame rate here
-            minHeight: 300,
-            minFrameRate: 30,
-          },
-          facingMode: isFront ? "user" : "environment",
-          optional: videoSourceId ? [{sourceId: videoSourceId}] : [],
-        },
-      })
-      .then((stream) => {
-        // Got stream!
-      })
-      .catch((error) => {
-        // Log error
-      });
-  });
+  }, [stream]);
 
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <Text>Test</Text>
-      </SafeAreaView>
-    </>
+    <RTCView
+      streamURL={stream?.toURL()}
+      objectFit={"contain"}
+      style={styles.viewer}
+    />
   );
 };
 

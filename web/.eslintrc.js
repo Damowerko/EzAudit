@@ -1,7 +1,4 @@
 module.exports = {
-  root: true,
+  ...require("../.eslintrc"),
   extends: 'react-app',
-  rules: {
-    quotes: ["error", "double"]
-  }
 };

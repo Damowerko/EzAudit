@@ -1,4 +1,4 @@
 module.exports = {
   ...require("../.eslintrc"),
-  extends: 'react-app',
+  extends: ["react-app", "prettier", "prettier/react"],
 };

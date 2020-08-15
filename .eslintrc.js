@@ -1,7 +1,6 @@
 module.exports = {
-  plugins: ["prettier"],
   rules: {
     quotes: ["error", "double"],
-    "prettier/prettier": "error",
   },
+  extends: ["react-app", "prettier", "prettier/react"],
 };

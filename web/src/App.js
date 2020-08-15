@@ -10,6 +10,7 @@ import "./App.css";
 
 import Login from "./Login";
 import VideoCall from "./VideoCall";
+import Evidence from "./components/Evidence";
 
 class App extends React.Component {
   constructor() {
@@ -37,6 +38,9 @@ class App extends React.Component {
               <LinkContainer to="/dashboard">
                 <Nav.Link>Dashboard</Nav.Link>
               </LinkContainer>
+              <LinkContainer to="/evidence">
+                <Nav.Link>Evidence</Nav.Link>
+              </LinkContainer>
               <LinkContainer to="/call">
                 <Nav.Link>Call</Nav.Link>
               </LinkContainer>
@@ -48,6 +52,9 @@ class App extends React.Component {
             </Route>
             <Route path="/projects" />
             <Route path="/dashboard" />
+            <Route path="/evidence">
+              <Evidence />
+            </Route>
             <Route path="/call">
               <VideoCall />
             </Route>

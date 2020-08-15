@@ -1,6 +1,6 @@
-import Server from "socket.io";
+const Server = require("socket.io");
 
-export default class ConferenceServer {
+module.exports = class ConferenceServer {
   constructor(port) {
     this.io = new Server(port);
     this.peers = new Map();

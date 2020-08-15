@@ -1,22 +1,63 @@
-const Server = require("socket.io");
+import Server from "socket.io";
 
-class ConferenceServer {
-  constructor(http) {
-    this.io = new Server(http);
-    this.sockets = new Map();
+export default class ConferenceServer {
+  constructor(port) {
+    this.io = new Server(port);
+    this.peers = new Map();
+    this.peersReverse = new Map();
     this.io.sockets.on("connection", this.handleConnection.bind(this));
   }
 
   handleConnection(socket) {
-    this.sockets.set(socket);
-    socket.on("disconnect", () => this.ids.delete(socket.id));
+    socket.on("join", (callback) => this.handleJoin(socket, callback));
     socket.on("message", (data) => this.handleMessage(socket, data));
+    socket.on("disconnect", () => this.deleteSocket(socket));
   }
 
-  handleMessage(socket, data) {
-    if (data.to === null) return;
-    data.from = socket.id;
+  addSocket(socket) {
+    if (this.peersReverse.has(socket)) {
+      return this.peersReverse.get(socket);
+    }
+    let id;
+    do {
+      id = Math.floor(Math.random() * 1000);
+    } while (this.peers.has(id));
+    this.peers.set(id, socket);
+    this.peersReverse.set(socket, id);
+    return id;
+  }
 
-    this.io.sockets.emit("message", data);
+  deleteSocket(socket) {
+    if (this.peersReverse.has(socket)) {
+      const id = this.peersReverse.get(socket);
+      this.peers.delete(id);
+      this.peersReverse.delete(socket);
+    }
+  }
+
+  deleteId(id) {
+    if (this.peers.has(id)) {
+      const socket = this.peers.get(id);
+      this.peers.delete(id);
+      this.peersReverse.delete(socket);
+    }
+  }
+
+  handleJoin(socket, callback) {
+    let id = this.addSocket(socket);
+    callback(id);
+    this.sendPeers();
+  }
+
+  handleMessage(fromSocket, data) {
+    data.from = this.peersReverse.get(fromSocket);
+    if (data.from === null) return;
+    const toSocket = this.peers.get(data.to);
+    if (toSocket) toSocket.send(data);
+  }
+
+  sendPeers() {
+    const peerIds = [...this.peers.keys()];
+    this.io.sockets.emit("peers", peerIds);
   }
 }

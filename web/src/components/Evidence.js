@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { DropzoneDialog } from 'material-ui-dropzone'
 import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
@@ -56,6 +57,8 @@ export default function Evidence() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [openUpload, setOpenUpload] = React.useState(false);
+  const [files, setFiles] = React.useState([]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -64,6 +67,20 @@ export default function Evidence() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleFileClose = () => {
+    setOpenUpload(false);
+  }
+
+  const handleFileSave = files => {
+    //Saving files to state for further use and closing Modal.
+    setFiles(files);
+    setOpenUpload(false);
+  }
+
+  const handleFileOpen = () => {
+    setOpenUpload(true);
+  }
 
   return (
     <Container>
@@ -161,6 +178,19 @@ export default function Evidence() {
           </Typography>
         </AccordionDetails>
       </Accordion>
+
+      <Button variant="contained" color="primary" size="large" onClick={() => handleFileOpen()}>
+        Add Image
+      </Button>
+      <DropzoneDialog
+          open={openUpload}
+          onSave={(e) => handleFileSave(e)}
+          acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
+          showPreviews={true}
+          maxFileSize={5000000}
+          onClose={() => handleFileClose()}
+      />
+
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open,

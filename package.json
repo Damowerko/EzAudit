@@ -2,6 +2,7 @@
   "name": "ezaudit",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "server": "node src/server/api.js",
     "start": "set HTTPS=true&&react-scripts start",
@@ -25,7 +26,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "socket.io": "^2.3.0",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^2.3.0",
+    "superagent": "^6.0.0"
   },
   "devDependencies": {
     "eslint-config-prettier": "^6.11.0",

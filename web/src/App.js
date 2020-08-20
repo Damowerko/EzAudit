@@ -8,6 +8,7 @@ import {LinkContainer} from "react-router-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+import NavDrawer from "./components/layout/NavDrawer";
 import Login from "./Login";
 import VideoCall from "./VideoCall";
 import Evidence from "./components/Evidence";
@@ -46,6 +47,7 @@ class App extends React.Component {
               </LinkContainer>
             </Nav>
           </Navbar>
+          <NavDrawer />
           <Switch>
             <Route path="/login">
               <Login />

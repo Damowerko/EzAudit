@@ -1,20 +1,14 @@
 import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import AppBar from '@material-ui/core/AppBar';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
@@ -24,7 +18,7 @@ import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 
 import PersonImage from '../../images/person1.png';
 
-const drawerWidth = 240;
+const drawerWidth = 90;
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -39,78 +33,66 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  menuButton: {
-    marginRight: 36,
-  },
-  hide: {
-    display: 'none',
+  appBar: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: 'nowrap',
   },
-  drawerOpen: {
+  drawerPaper: {
     width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
-    },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
   },
   content: {
     flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
   },
 }));
 
+function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
 export default function NavDrawer() {
   const classes = useStyles();
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
+      <AppBar position="fixed" className={classes.appBar}>
+        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+            <Tab label="Evidence" {...a11yProps(0)} />
+            <Tab label="Pending Review" {...a11yProps(1)} />
+            <Tab label="Sign" {...a11yProps(2)} />
+            <Tab label="Submit" {...a11yProps(3)} />
+        </Tabs>
+      </AppBar>
+
       <Drawer
+        className={classes.drawer}
         variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        anchor="left"
       >
-        <div className={classes.toolbar}>
-          <IconButton>
-            <Avatar className={classes.userImage} alt="User" src={PersonImage} />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
+          <List>
+            <ListItem button>
+              <ListItemIcon>
+                <Avatar className={classes.userImage} alt="User" src={PersonImage} />
+              </ListItemIcon>
+            </ListItem>
             <ListItem button>
               <ListItemIcon>
                   <HomeOutlinedIcon className={classes.icon} />
@@ -136,8 +118,12 @@ export default function NavDrawer() {
                   <DescriptionOutlinedIcon className={classes.icon} />
               </ListItemIcon>
             </ListItem>
-        </List>
+          </List>
       </Drawer>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        
+      </main>
     </div>
   );
 }

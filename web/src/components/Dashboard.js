@@ -16,7 +16,7 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import VideocamOutlinedIcon from '@material-ui/icons/VideocamOutlined';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 
-import PersonImage from '../../images/person1.png';
+import PersonImage from '../images/person1.png';
 
 const drawerWidth = 90;
 
@@ -58,7 +58,7 @@ function a11yProps(index) {
     };
 }
 
-export default function NavDrawer() {
+export default function Dashboard() {
   const classes = useStyles();
 
   const [value, setValue] = React.useState(0);

@@ -8,10 +8,9 @@ import {LinkContainer} from "react-router-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import NavDrawer from "./components/layout/NavDrawer";
+import Dashboard from "./components/Dashboard";
 import Login from "./Login";
 import VideoCall from "./VideoCall";
-import Evidence from "./components/Evidence";
 
 class App extends React.Component {
   constructor() {
@@ -39,23 +38,18 @@ class App extends React.Component {
               <LinkContainer to="/dashboard">
                 <Nav.Link>Dashboard</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/evidence">
-                <Nav.Link>Evidence</Nav.Link>
-              </LinkContainer>
               <LinkContainer to="/call">
                 <Nav.Link>Call</Nav.Link>
               </LinkContainer>
             </Nav>
           </Navbar>
-          <NavDrawer />
           <Switch>
             <Route path="/login">
               <Login />
             </Route>
             <Route path="/projects" />
-            <Route path="/dashboard" />
-            <Route path="/evidence">
-              <Evidence />
+            <Route path="/dashboard">
+              <Dashboard />
             </Route>
             <Route path="/call">
               <VideoCall />

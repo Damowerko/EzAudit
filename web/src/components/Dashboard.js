@@ -18,6 +18,8 @@ import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 
 import PersonImage from '../images/person1.png';
 
+import AddEvidence from './AddEvidence';
+
 const drawerWidth = 90;
 
 const useStyles = makeStyles((theme) => ({
@@ -73,6 +75,7 @@ export default function Dashboard() {
       <AppBar position="fixed" className={classes.appBar}>
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
             <Tab label="Evidence" {...a11yProps(0)} />
+            <Tab label="Add Evidence" {...a11yProps(1)} />
             <Tab label="Pending Review" {...a11yProps(1)} />
             <Tab label="Sign" {...a11yProps(2)} />
             <Tab label="Submit" {...a11yProps(3)} />
@@ -122,7 +125,12 @@ export default function Dashboard() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        
+        <div role="tabpanel" hidden={value !== 0}>
+          <AddEvidence />
+        </div>
+        <div role="tabpanel" hidden={value !== 1}>
+          <AddEvidence />
+        </div>
       </main>
     </div>
   );

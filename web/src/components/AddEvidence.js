@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Evidence() {
+export default function AddEvidence() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);

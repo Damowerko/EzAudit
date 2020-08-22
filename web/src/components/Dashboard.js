@@ -18,6 +18,7 @@ import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 
 import PersonImage from '../images/person1.png';
 
+import Evidence from './Evidence';
 import AddEvidence from './AddEvidence';
 
 const drawerWidth = 90;
@@ -126,7 +127,7 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <div role="tabpanel" hidden={value !== 0}>
-          <AddEvidence />
+          <Evidence />
         </div>
         <div role="tabpanel" hidden={value !== 1}>
           <AddEvidence />

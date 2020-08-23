@@ -17,6 +17,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import TextField from '@material-ui/core/TextField';
+import Chip from '@material-ui/core/Chip';
 
 const drawerWidth = 350;
 
@@ -51,11 +53,17 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginRight: 0,
   },
+  mb: {
+    marginBottom: '1rem'
+  }
 }));
 
 export default function AddEvidence() {
   const classes = useStyles();
   const theme = useTheme();
+
+  const [comments, setComments] = React.useState([]);
+  const [comment, setComment] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [openUpload, setOpenUpload] = React.useState(false);
   const [files, setFiles] = React.useState([]);
@@ -80,6 +88,11 @@ export default function AddEvidence() {
 
   const handleFileOpen = () => {
     setOpenUpload(true);
+  }
+
+  const addComment = () => {
+    setComments([...comments, comment]);
+    setComment('')
   }
 
   return (
@@ -217,13 +230,35 @@ export default function AddEvidence() {
           ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
           facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
           gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
+          donec ultrices.
         </Typography>
+
+        <Typography variant="h6">
+          Comments
+        </Typography>
+        {comments && ( comments.map((comment, index) => {
+          return (
+            <Typography paragraph key={index}>
+              {comment}
+            </Typography>
+          )})
+        )}
+        
+        <TextField
+          className={classes.mb}
+          label="Add Comment"
+          variant="outlined"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          onKeyPress={e => e.key === "Enter" ? addComment() : null} />
+
+        <Typography variant="h6">
+          Tags
+        </Typography>
+        <Box>
+          <Chip label="Important" variant="outlined" />
+        </Box>
+        
       </Drawer>
     </Container>
   );

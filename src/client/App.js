@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import Login from "./Login";
+import Dashboard from "./components/Dashboard";
 import VideoCall from "./VideoCall";
 
 function App() {
@@ -36,7 +37,9 @@ function App() {
             <Login />
           </Route>
           <Route path="/projects" />
-          <Route path="/dashboard" />
+          <Route path="/dashboard">
+              <Dashboard />
+            </Route>
           <Route path="/call">
             <VideoCall />
           </Route>

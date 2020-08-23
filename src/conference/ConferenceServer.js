@@ -1,8 +1,8 @@
-const Server = require("socket.io");
+const SocketIoServer = require("socket.io");
 
 module.exports = class ConferenceServer {
-  constructor(port) {
-    this.io = new Server(port);
+  constructor(server) {
+    this.io = new SocketIoServer(server);
     this.peers = new Map();
     this.peersReverse = new Map();
     this.io.sockets.on("connection", this.handleConnection.bind(this));

@@ -1,11 +1,12 @@
 import React from "react";
 import ConferenceClient from "../conference/ConferenceClient";
+import config from "../config";
 
 export default function VideoCall() {
   const localVideo = React.createRef();
   const remoteVideo = React.createRef();
   const [conferenceClient] = React.useState(
-    new ConferenceClient("http://localhost:4000"),
+    new ConferenceClient(`https://${config.ip}:3000`),
   );
 
   React.useEffect(
@@ -22,9 +23,12 @@ export default function VideoCall() {
 
   return (
     <div>
-      <video ref={localVideo} autoPlay />
       <video ref={remoteVideo} autoPlay />
-      <button onClick={conferenceClient.join.bind(conferenceClient)}>
+      <button
+        onClick={() => {
+          conferenceClient.join();
+        }}
+        style={{cursor: "pointer"}}>
         Join
       </button>
     </div>

@@ -13,8 +13,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
@@ -104,40 +102,21 @@ export default function AddEvidence() {
           aria-controls="additional-actions1-content"
           id="additional-actions1-header"
         >
-          <FormControlLabel
-            aria-label="Acknowledge"
-            onClick={(event) => event.stopPropagation()}
-            onFocus={(event) => event.stopPropagation()}
-            control={<Checkbox />}
-            label="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
-          />
+          <Typography variant="h6">
+            1) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Box marginLeft={3}>
-            <FormControlLabel
-              aria-label="Acknowledge"
-              onClick={(event) => event.stopPropagation()}
-              onFocus={(event) => event.stopPropagation()}
-              control={<Checkbox />}
-              label="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
-            />
-            <Button variant="contained" onClick={handleDrawerOpen}>See More</Button>
-            <FormControlLabel
-              aria-label="Acknowledge"
-              onClick={(event) => event.stopPropagation()}
-              onFocus={(event) => event.stopPropagation()}
-              control={<Checkbox />}
-              label="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
-            />
-            <Button variant="contained" onClick={handleDrawerOpen}>See More</Button>
-            <FormControlLabel
-              aria-label="Acknowledge"
-              onClick={(event) => event.stopPropagation()}
-              onFocus={(event) => event.stopPropagation()}
-              control={<Checkbox />}
-              label="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
-            />
-            <Button variant="contained" onClick={handleDrawerOpen}>See More</Button>
+            <Typography onClick={handleDrawerOpen} paragraph>
+              A) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            </Typography>
+            <Typography onClick={handleDrawerOpen} paragraph>
+              B) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            </Typography>
+            <Typography onClick={handleDrawerOpen} paragraph>
+              A) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            </Typography>
           </Box>
         </AccordionDetails>
       </Accordion>
@@ -148,24 +127,15 @@ export default function AddEvidence() {
           aria-controls="additional-actions2-content"
           id="additional-actions2-header"
         >
-          <FormControlLabel
-            aria-label="Acknowledge"
-            onClick={(event) => event.stopPropagation()}
-            onFocus={(event) => event.stopPropagation()}
-            control={<Checkbox />}
-            label="Rhoncus dolor purus non enim praesent elementum facilisis leo vel"
-          />
+          <Typography variant="h6">
+            2) Rhoncus dolor purus non enim praesent elementum facilisis leo vel
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Box marginLeft={3}>
-            <FormControlLabel
-              aria-label="Acknowledge"
-              onClick={(event) => event.stopPropagation()}
-              onFocus={(event) => event.stopPropagation()}
-              control={<Checkbox />}
-              label="Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus"
-            />
-            <Button variant="contained" onClick={handleDrawerOpen}>See More</Button>
+            <Typography onClick={handleDrawerOpen} paragraph>
+              A) Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus
+            </Typography>
           </Box>
         </AccordionDetails>
       </Accordion>
@@ -176,19 +146,17 @@ export default function AddEvidence() {
           aria-controls="additional-actions3-content"
           id="additional-actions3-header"
         >
-          <FormControlLabel
-            aria-label="Acknowledge"
-            onClick={(event) => event.stopPropagation()}
-            onFocus={(event) => event.stopPropagation()}
-            control={<Checkbox />}
-            label="Convallis convallis tellus id interdum velit laoreet id donec ultrices"
-          />
+          <Typography variant="h6">
+            2) Convallis convallis tellus id interdum velit laoreet id donec ultrices
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography color="textSecondary">
-          At augue eget arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt.
-           Lorem donec massa sapien faucibus et molestie ac.
-          </Typography>
+          <Box marginLeft={3}>
+            <Typography color="textSecondary">
+              At augue eget arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt.
+              Lorem donec massa sapien faucibus et molestie ac.
+            </Typography>
+          </Box>
         </AccordionDetails>
       </Accordion>
 

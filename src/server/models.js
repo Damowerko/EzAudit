@@ -1,11 +1,24 @@
 const mongoose = require("mongoose");
 const {Schema, model} = mongoose;
 
+const comment = new Schema({
+  text: String,
+  isPrivate: {type: Boolean, default: true},
+});
+
 const fileSchema = new Schema({
-  id: String,
   filename: String,
   originalname: String,
+  comments: [comment],
+  tags: [String],
 });
 const File = model("File", fileSchema);
 
-module.exports = {File}
+const standardsElementSchema = new Schema({
+  element_id: Number,
+  comments: [comment],
+  tags: [String],
+});
+const StandardsElement = model("StandardsElement", standardsElementSchema);
+
+module.exports = {File, StandardsElement};

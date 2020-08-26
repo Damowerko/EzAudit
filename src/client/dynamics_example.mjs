@@ -1,4 +1,4 @@
-import {get} from "./dynamics.js";
+import {get} from "./dynamics.mjs";
 
 (async () => {
     try {

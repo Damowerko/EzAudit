@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { DropzoneDialog } from 'material-ui-dropzone'
@@ -78,9 +79,16 @@ export default function AddEvidence() {
     setOpenUpload(false);
   }
 
-  const handleFileSave = files => {
+  const handleFileSave = async files => {
     //Saving files to state for further use and closing Modal.
     setFiles(files);
+    const formData = new FormData();
+    formData.append('file', files);
+
+    const data = await axios.post('http://localhost:4000/api/file', formData);
+
+    console.log(data);
+
     setOpenUpload(false);
   }
 

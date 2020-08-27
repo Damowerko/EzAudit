@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AddEvidence() {
+export default function AddEvidence({setValue}) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -65,7 +65,7 @@ export default function AddEvidence() {
   const [comment, setComment] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [openUpload, setOpenUpload] = React.useState(false);
-  const [files, setFiles] = React.useState([]);
+  const [filesList, setFilesList] = React.useState([]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -81,15 +81,13 @@ export default function AddEvidence() {
 
   const handleFileSave = async files => {
     //Saving files to state for further use and closing Modal.
-    setFiles(files);
+    setFilesList(files);
     const formData = new FormData();
-    formData.append('file', files);
+    formData.append('file', files[0]);
 
     const data = await axios.post('http://localhost:4000/api/file', formData);
-
-    console.log(data);
-
     setOpenUpload(false);
+    setValue(0);
   }
 
   const handleFileOpen = () => {

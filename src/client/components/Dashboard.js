@@ -130,7 +130,7 @@ export default function Dashboard() {
           <Evidence />
         </div>
         <div role="tabpanel" hidden={value !== 1}>
-          <AddEvidence />
+          <AddEvidence setValue={setValue}/>
         </div>
       </main>
     </div>

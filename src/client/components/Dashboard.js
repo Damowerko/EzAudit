@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -64,11 +65,28 @@ function a11yProps(index) {
 export default function Dashboard() {
   const classes = useStyles();
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [files, setFiles] = useState([]);
+  const [temp] = useState(true);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    async function getFiles() {
+        try{
+            const { data } = await axios.get('http://localhost:4000/api/file');
+
+            setFiles(data.files);
+            console.log(data.files)
+        } catch(err){
+            console.error(err);
+        }
+    }
+    
+    getFiles();
+  }, [temp]);
 
   return (
     <div className={classes.root}>
@@ -127,7 +145,7 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <div role="tabpanel" hidden={value !== 0}>
-          <Evidence />
+          <Evidence files={files}/>
         </div>
         <div role="tabpanel" hidden={value !== 1}>
           <AddEvidence setValue={setValue}/>

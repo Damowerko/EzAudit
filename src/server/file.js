@@ -41,6 +41,17 @@ function getFile() {
 }
 
 router
+  // get all files
+  .route("/")
+  .get(
+    runAsync(async function (req, res) {
+      const files = await File.find();
+
+      return res.send({files})
+    })
+  )
+
+router
   .route("/:_id?")
   .post(
     upload.array("file"),

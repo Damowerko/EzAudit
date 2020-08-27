@@ -3,6 +3,9 @@
 Important notes:
 * Form files must have a fieldname `file` (even for multiple files).
 
+### GET /api/file
+Gell all files data
+
 ### POST /api/file
 Body should contain multipart files from multipart form. An array of file metadata.
 

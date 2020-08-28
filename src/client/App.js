@@ -4,9 +4,9 @@ import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import Login from "./Login";
+import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
-import VideoCall from "./VideoCall";
+import VideoCall from "./components/VideoCall";
 
 function App() {
   return (

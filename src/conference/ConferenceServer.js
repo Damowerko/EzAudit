@@ -33,6 +33,7 @@ module.exports = class ConferenceServer {
       this.peers.delete(id);
       this.peersReverse.delete(socket);
     }
+    this.sendPeers();
   }
 
   deleteId(id) {
@@ -58,6 +59,7 @@ module.exports = class ConferenceServer {
 
   sendPeers() {
     const peerIds = [...this.peers.keys()];
+    console.log(`Peer Ids: ${peerIds}`);
     this.io.sockets.emit("peers", peerIds);
   }
 }

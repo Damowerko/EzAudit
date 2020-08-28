@@ -8,6 +8,7 @@ class Peer {
     this.signalSend = signalSend;
     this.localStream = localStream;
     this.remoteStream = remoteStream;
+    this.tracks = [];
 
     this.makingOffer = false;
     this.ignoreOffer = false;
@@ -26,11 +27,21 @@ class Peer {
       }
     };
     // any incoming tracks will be added
-    this.pc.ontrack = (ev) => this.remoteStream.addTrack(ev.track);
+    this.pc.ontrack = (ev) => {
+      this.tracks.push(ev.track);
+      return this.remoteStream.addTrack(ev.track);
+    };
     // add all existing tracks
     this.localStream.getTracks().forEach((track) => this.pc.addTrack(track));
     // any new tracks will be added
     this.localStream.onaddtrack = (ev) => this.pc.addTrack(ev.track);
+  }
+
+  /***
+   * Stop all tracks received from the peer.
+   */
+  stop() {
+    this.tracks.forEach((track) => track.stop());
   }
 
   async signalRecieve({description, candidate}) {
@@ -76,19 +87,31 @@ export default class ConferenceClient {
     this.localStream = new MediaStream();
     this.remoteStream = new MediaStream();
     navigator.mediaDevices
-      .getUserMedia({video: true, audio: true})
+      .getUserMedia({
+        video: {
+          width: 1920,
+          height: 1080,
+        },
+        audio: true,
+      })
       .then((stream) =>
         stream.getTracks().forEach((track) => this.localStream.addTrack(track)),
       )
       .catch(console.error);
 
-    // init event handlers last
+    // init event handlers
     this.socket.on("message", this.handleMessage.bind(this));
     this.socket.on("peers", this.handlePeers.bind(this));
+
+    // once everything is ready join
+    this.join();
   }
 
   join() {
-    this.socket.emit("join", (id) => (this.localId = id));
+    this.socket.emit("join", (id) => {
+      this.localId = id;
+      console.log(`Local Peer Id: ${id}`)
+    });
   }
 
   handleMessage(data) {
@@ -111,6 +134,7 @@ export default class ConferenceClient {
     // remove stale peers
     for (const id of this.peers.keys()) {
       if (!serverIds.has(id)) {
+        this.peers.get(id).stop();
         this.peers.delete(id);
       }
     }

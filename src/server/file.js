@@ -109,8 +109,8 @@ router
     runAsync(async function (req, res) {
       const {file} = req.db;
       file.comments.push(req.body);
-      await file.save();
-      res.sendStatus(200);
+      const data = await file.save();
+      res.send(data);
     }),
   )
   .get(

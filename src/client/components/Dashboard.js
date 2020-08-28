@@ -158,7 +158,7 @@ export default function Dashboard() {
         <div className={classes.toolbar} />
         <div role="tabpanel" hidden={value !== 0}>
           <Evidence files={files} handleDrawerOpen={handleDrawerOpen} />
-          <DrawerFile openDrawer={openDrawer} handleDrawerClose={handleDrawerClose} drawerData={drawerData}/>
+          <DrawerFile openDrawer={openDrawer} handleDrawerClose={handleDrawerClose} drawerData={drawerData} setDrawerData={setDrawerData} />
         </div>
         <div role="tabpanel" hidden={value !== 1}>
           <AddEvidence setValue={setValue}/>

@@ -52,16 +52,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function DrawerFile({ openDrawer, handleDrawerClose, drawerData }) {
+export default function DrawerFile({ openDrawer, handleDrawerClose, drawerData, setDrawerData }) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [comments, setComments] = React.useState([]);
   const [comment, setComment] = React.useState('');
 
-  const addComment = () => {
-    setComments([...comments, comment]);
-    setComment('')
+  const commentData = {
+    text: comment
+  }
+
+  const addComment = async id => {
+    const { data } = await axios.post(`http://localhost:4000/api/file/${id}/comment`, commentData);
+    setDrawerData(data);
+    setComment('');
   }
 
   return (
@@ -111,7 +115,7 @@ export default function DrawerFile({ openDrawer, handleDrawerClose, drawerData }
           variant="outlined"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          onKeyPress={e => e.key === "Enter" ? addComment() : null} />
+          onKeyPress={e => e.key === "Enter" ? addComment(drawerData._id) : null} />
 
         <Typography variant="h6">
           Tags

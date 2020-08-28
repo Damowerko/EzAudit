@@ -67,7 +67,6 @@ export default function Dashboard() {
 
   const [value, setValue] = useState(0);
   const [files, setFiles] = useState([]);
-  const [temp] = useState(true);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -86,7 +85,7 @@ export default function Dashboard() {
     }
     
     getFiles();
-  }, [temp]);
+  }, [value]);
 
   return (
     <div className={classes.root}>

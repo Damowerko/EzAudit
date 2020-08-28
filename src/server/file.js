@@ -45,7 +45,7 @@ router
   .route("/")
   .get(
     runAsync(async function (req, res) {
-      const files = await File.find();
+      const files = await File.find().sort('-date');
 
       return res.send({files})
     })

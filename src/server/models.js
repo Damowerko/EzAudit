@@ -11,6 +11,7 @@ const fileSchema = new Schema({
   originalname: String,
   comments: [comment],
   tags: [String],
+  date: { type: Date, default: Date.now }
 });
 const File = model("File", fileSchema);
 

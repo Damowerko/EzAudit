@@ -21,6 +21,7 @@ import PersonImage from '../images/person1.png';
 
 import Evidence from './Evidence';
 import AddEvidence from './AddEvidence';
+import DrawerFile from './DrawerFile';
 
 const drawerWidth = 90;
 
@@ -67,9 +68,18 @@ export default function Dashboard() {
 
   const [value, setValue] = useState(0);
   const [files, setFiles] = useState([]);
+  const [openDrawer, setOpenDrawer] = React.useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleDrawerOpen = () => {
+    setOpenDrawer(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpenDrawer(false);
   };
 
   useEffect(() => {
@@ -144,7 +154,8 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <div role="tabpanel" hidden={value !== 0}>
-          <Evidence files={files}/>
+          <Evidence files={files} handleDrawerOpen={handleDrawerOpen}/>
+          <DrawerFile openDrawer={openDrawer} handleDrawerClose={handleDrawerClose}/>
         </div>
         <div role="tabpanel" hidden={value !== 1}>
           <AddEvidence setValue={setValue}/>

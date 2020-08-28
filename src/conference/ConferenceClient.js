@@ -13,6 +13,17 @@ class Peer {
     this.makingOffer = false;
     this.ignoreOffer = false;
     this.pc = new RTCPeerConnection(configuration);
+    // any incoming tracks will be added
+    this.pc.ontrack = (ev) => {
+      this.tracks.push(ev.track);
+      return this.remoteStream.addTrack(ev.track);
+    };
+    // any new tracks will be added
+    this.localStream.onaddtrack = (ev) => this.pc.addTrack(ev.track);
+    // add all existing tracks
+    this.localStream.getTracks().forEach((track) => this.pc.addTrack(track));
+
+    // signaling callbacks
     this.pc.onnegotiationneeded = async (options) => {
       await this.pc.setLocalDescription(await this.pc.createOffer(options));
       this.signalSend({
@@ -26,15 +37,6 @@ class Peer {
         this.pc.restartIce();
       }
     };
-    // any incoming tracks will be added
-    this.pc.ontrack = (ev) => {
-      this.tracks.push(ev.track);
-      return this.remoteStream.addTrack(ev.track);
-    };
-    // add all existing tracks
-    this.localStream.getTracks().forEach((track) => this.pc.addTrack(track));
-    // any new tracks will be added
-    this.localStream.onaddtrack = (ev) => this.pc.addTrack(ev.track);
   }
 
   /***
@@ -86,6 +88,8 @@ export default class ConferenceClient {
     this.socket = io(url, {secure: url.includes("https")});
     this.localStream = new MediaStream();
     this.remoteStream = new MediaStream();
+    this.muted = {video: true, audio: false};
+
     navigator.mediaDevices
       .getUserMedia({
         video: {
@@ -94,28 +98,39 @@ export default class ConferenceClient {
         },
         audio: true,
       })
-      .then((stream) =>
-        stream.getTracks().forEach((track) => this.localStream.addTrack(track)),
-      )
+      .then((stream) => {
+        stream.getTracks().forEach((track) => this.localStream.addTrack(track));
+        this.setMuted(this.muted);
+        this.join();
+      })
       .catch(console.error);
 
     // init event handlers
     this.socket.on("message", this.handleMessage.bind(this));
     this.socket.on("peers", this.handlePeers.bind(this));
-
-    // once everything is ready join
-    this.join();
   }
 
   join() {
-    this.socket.emit("join", (id) => {
-      this.localId = id;
-      console.log(`Local Peer Id: ${id}`)
-    });
+    setTimeout(() => {
+      console.log("Joining!");
+      this.socket.emit("join", (id) => {
+        this.localId = id;
+        console.log(`Local Peer Id: ${id}`);
+      });
+    }, 1000);
+  }
+
+  setMuted({audio, video}) {
+    this.muted = {audio, video};
+    this.localStream
+      .getAudioTracks()
+      .forEach((track) => (track.enabled = !audio));
+    this.localStream
+      .getVideoTracks()
+      .forEach((track) => (track.enabled = !video));
   }
 
   handleMessage(data) {
-    console.log(data);
     if (data.from === null) {
       console.warn("data.from is null.");
       return;
@@ -129,6 +144,7 @@ export default class ConferenceClient {
   }
 
   handlePeers(serverIds) {
+    console.log(`Server peer ids: ${serverIds}`);
     if (this.localId === null) return;
     serverIds = new Set(serverIds);
     // remove stale peers

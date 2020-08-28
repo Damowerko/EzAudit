@@ -16,6 +16,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import TransitionStack from "./TransitionStack";
 import Zoom from "@material-ui/core/Zoom";
+import {setIn} from "formik";
 
 const useStyles = makeStyles({
   buttonPanel: {
@@ -29,14 +30,25 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ConferencePanel({conferenceClient, minimizable}) {
+export default function ConferencePanel({
+  conferenceClient,
+  minimizable,
+  muted,
+  setMuted,
+}) {
   const [minimized, setMinimized] = useState(minimizable);
-  const [muted, setMuted] = useState({video: true, audio: false});
   const [pointerEnabled, setPointerEnabled] = useState(false);
 
   useEffect(() => {
     setMinimized(minimizable);
   }, [minimizable]);
+
+  React.useEffect(
+    function () {
+      conferenceClient.setMuted(muted);
+    },
+    [conferenceClient, muted],
+  );
 
   const classes = useStyles();
 

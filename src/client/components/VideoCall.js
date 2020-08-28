@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import ConferenceClient from "../../conference/ConferenceClient";
 import config from "../../config";
 import {makeStyles} from "@material-ui/core/styles";
 import ConferencePanel from "./ConferencePanel";
+import {setIn} from "formik";
 
 const useStyles = makeStyles({
   fillParent: {
@@ -23,34 +24,38 @@ const useStyles = makeStyles({
   },
 });
 
+const conferenceClient = new ConferenceClient(`https://${config.ip}:3000`);
+
 export default function VideoCall() {
-  const localVideo = React.createRef();
-  const remoteVideo = React.createRef();
-  const [conferenceClient] = React.useState(
-    new ConferenceClient(`https://${config.ip}:3000`),
-  );
+  const video = React.createRef();
   const classes = useStyles();
+  const [muted, setMuted] = useState({video: true, audio: false});
 
   React.useEffect(
     function () {
-      if (localVideo.current && !localVideo.current.srcObject) {
-        localVideo.current.srcObject = conferenceClient.localStream;
-      }
-      if (remoteVideo.current && !remoteVideo.current.srcObject) {
-        remoteVideo.current.srcObject = conferenceClient.remoteStream;
+      if (video.current) {
+        console.log(muted);
+        video.current.srcObject = muted.video
+          ? conferenceClient.remoteStream
+          : conferenceClient.localStream;
       }
     },
-    [conferenceClient, localVideo, remoteVideo],
+    [video, muted],
   );
 
   return (
     <div className={`${classes.fillParent} ${classes.videoCall}`}>
-      <ConferencePanel minimizable={true} conferenceClient={conferenceClient} />
+      <ConferencePanel
+        minimizable={true}
+        conferenceClient={conferenceClient}
+        muted={muted}
+        setMuted={setMuted}
+      />
       {/*<img*/}
       {/*  className={classes.video}*/}
       {/*  src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"*/}
       {/*/>*/}
-      <video className={classes.video} ref={remoteVideo} autoPlay />
+      <video className={classes.video} ref={video} autoPlay />
     </div>
   );
 }

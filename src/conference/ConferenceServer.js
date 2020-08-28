@@ -60,6 +60,9 @@ module.exports = class ConferenceServer {
   sendPeers() {
     const peerIds = [...this.peers.keys()];
     console.log(`Peer Ids: ${peerIds}`);
-    this.io.sockets.emit("peers", peerIds);
+    for (const socket of this.peers.values()) {
+      socket.emit("peers", peerIds);
+    }
+    // this.io.sockets.emit("peers", peerIds);
   }
-}
+};

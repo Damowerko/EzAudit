@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function DrawerFile({ openDrawer, handleDrawerClose }) {
+export default function DrawerFile({ openDrawer, handleDrawerClose, drawerData }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -87,21 +87,20 @@ export default function DrawerFile({ openDrawer, handleDrawerClose }) {
           </IconButton>
         </div>
         <Divider />
+        <Typography variant="h6" paragraph>
+          {drawerData.originalname}
+        </Typography>
         <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices.
+          {drawerData.date}
         </Typography>
 
         <Typography variant="h6">
           Comments
         </Typography>
-        {comments && ( comments.map((comment, index) => {
+        {drawerData.comments && ( drawerData.comments.map((comment, index) => {
           return (
             <Typography paragraph key={index}>
-              {comment}
+              {comment.text}
             </Typography>
           )})
         )}

@@ -68,14 +68,17 @@ export default function Dashboard() {
 
   const [value, setValue] = useState(0);
   const [files, setFiles] = useState([]);
-  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [drawerData, setDrawerData] = useState({});
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = (file) => {
     setOpenDrawer(true);
+    setDrawerData(file)
   };
 
   const handleDrawerClose = () => {
@@ -154,8 +157,8 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <div role="tabpanel" hidden={value !== 0}>
-          <Evidence files={files} handleDrawerOpen={handleDrawerOpen}/>
-          <DrawerFile openDrawer={openDrawer} handleDrawerClose={handleDrawerClose}/>
+          <Evidence files={files} handleDrawerOpen={handleDrawerOpen} />
+          <DrawerFile openDrawer={openDrawer} handleDrawerClose={handleDrawerClose} drawerData={drawerData}/>
         </div>
         <div role="tabpanel" hidden={value !== 1}>
           <AddEvidence setValue={setValue}/>

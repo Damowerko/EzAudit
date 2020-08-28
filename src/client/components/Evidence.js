@@ -34,7 +34,7 @@ export default function Evidence({ files, handleDrawerOpen }) {
             return(
               <Grid item xs={12} sm={6} md={4} lg={3} key={file._id}>
                 <Paper className={classes.paper}>
-                    <Typography variant="h6" align="left" onClick={handleDrawerOpen}>
+                    <Typography variant="h6" align="left" onClick={() => handleDrawerOpen(file)}>
                       {file.originalname}
                     </Typography>
                     <a href={'http://localhost:4000/api/file/' + file._id} target="_blank" download>

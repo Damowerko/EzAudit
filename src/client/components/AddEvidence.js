@@ -54,6 +54,11 @@ const useStyles = makeStyles((theme) => ({
   },
   mb: {
     marginBottom: '1rem'
+  },
+  btn: {
+    backgroundColor: '#0E402D',
+    color: 'white',
+    marginTop: '1rem'
   }
 }));
 
@@ -101,6 +106,9 @@ export default function AddEvidence({setValue}) {
 
   return (
     <Container>
+      <Typography variant="h4" paragraph>
+        Requirements
+      </Typography>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -109,19 +117,22 @@ export default function AddEvidence({setValue}) {
           id="additional-actions1-header"
         >
           <Typography variant="h6">
-            1) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            1) Compliance with timber legality legislation
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Box marginLeft={3}>
             <Typography onClick={handleDrawerOpen} paragraph>
-              A) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              A) The organization shall ensure that its FSC-certified products conform to all applicable timber legality legislation.
             </Typography>
             <Typography onClick={handleDrawerOpen} paragraph>
-              B) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              B) Ensure that FSC-certified products containing pre-consumer reclaimed wood (except reclaimed paper) being sold to companies located in countries where timber legality legislation applies
             </Typography>
             <Typography onClick={handleDrawerOpen} paragraph>
-              A) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              C) Only include pre-consumer reclaimed wood materials that conform to FSC Controlled Wood requirements in accordance with FSC-STD-40-005
+            </Typography>
+            <Typography onClick={handleDrawerOpen} paragraph>
+              D) Inform their customers about the presence of pre-consumer reclaimed wood in the product and support their due diligence system as required by applicable timber legality legislation
             </Typography>
           </Box>
         </AccordionDetails>
@@ -134,13 +145,16 @@ export default function AddEvidence({setValue}) {
           id="additional-actions2-header"
         >
           <Typography variant="h6">
-            2) Rhoncus dolor purus non enim praesent elementum facilisis leo vel
+            2) Control of FSC Claims
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Box marginLeft={3}>
             <Typography onClick={handleDrawerOpen} paragraph>
-              A) Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus
+              A) All products shall have the same conversion factor. If not, they may still be grouped under the same product group, but the applicable conversion factors shall be applied to the corresponding products for the calculation of the amount of output
+            </Typography>
+            <Typography onClick={handleDrawerOpen} paragraph>
+              B) All products shall be made of the same input material (e.g. pine lumber) or same combination of input materials (e.g. a product group of veneered particle boards, where all products are made of a combination of particle board and veneer of equival
             </Typography>
           </Box>
         </AccordionDetails>
@@ -153,22 +167,50 @@ export default function AddEvidence({setValue}) {
           id="additional-actions3-header"
         >
           <Typography variant="h6">
-            2) Convallis convallis tellus id interdum velit laoreet id donec ultrices
+            3) Supllementary requirements
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Box marginLeft={3}>
-            <Typography color="textSecondary">
-              At augue eget arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt.
-              Lorem donec massa sapien faucibus et molestie ac.
+            <Typography paragraph>
+              A) Only FSC products that are eligible for FSC labelling may be promoted with the FSC trademarks
+            </Typography>
+            <Typography paragraph>
+              A) Products exclusively made of input materials from small and/or community producers are eligible to carry the FSC Small and Community Label
+            </Typography>
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-label="Expand"
+          aria-controls="additional-actions3-content"
+          id="additional-actions3-header"
+        >
+          <Typography variant="h6">
+            4) Outsourcing
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box marginLeft={3}>
+            <Typography paragraph>
+              A) Activities that are subject to outsourcing agreements are those that are included in the scope of the organization’s CoC certificate, such as purchase, processing, storage, labelling and invoicing of products
+            </Typography>
+            <Typography paragraph>
+              B) The organization shall establish an outsourcing agreement with each non-FSC-certified contractor, specifying at minimum
+            </Typography>
+            <Typography paragraph>
+              C) Notify the organization within the period of 10 business days if the contractor is included in the list of organizations that are disassociated from FSC, in accordance with the FSC-POL-01-004, and therefore subsequently ineligible to provide outsourcing
             </Typography>
           </Box>
         </AccordionDetails>
       </Accordion>
 
-      <Button variant="contained" color="primary" size="large" onClick={() => handleFileOpen()}>
+      <Button className={classes.btn} variant="contained" size="large" onClick={() => handleFileOpen()}>
         Add Image
       </Button>
+
       <DropzoneDialog
           open={openUpload}
           onSave={(e) => handleFileSave(e)}

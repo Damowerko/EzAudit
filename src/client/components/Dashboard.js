@@ -21,6 +21,7 @@ import PersonImage from '../images/person1.png';
 
 import Evidence from './Evidence';
 import AddEvidence from './AddEvidence';
+import Review from './Review';
 import DrawerFile from './DrawerFile';
 
 const drawerWidth = 90;
@@ -163,6 +164,9 @@ export default function Dashboard() {
         </div>
         <div role="tabpanel" hidden={value !== 1}>
           <AddEvidence setValue={setValue}/>
+        </div>
+        <div role="tabpanel" hidden={value !== 2}>
+          <Review setValue={setValue}/>
         </div>
       </main>
     </div>

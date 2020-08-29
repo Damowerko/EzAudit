@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -34,15 +35,16 @@ export default function Evidence({ files, handleDrawerOpen }) {
             return(
               <Grid item xs={12} sm={6} md={4} lg={3} key={file._id}>
                 <Paper className={classes.paper}>
-                    <Typography variant="h6" align="left" onClick={() => handleDrawerOpen(file)}>
+                  <Button onClick={() => handleDrawerOpen(file)}>
+                    <Typography variant="subtitle2" align="left">
                       {file.originalname}
                     </Typography>
-                    <a href={'http://localhost:4000/api/file/' + file._id} target="_blank" download>
-                      <IconButton>
-                        <GetAppIcon />
-                      </IconButton>
-                    </a>
-                    
+                  </Button>
+                  <a href={'http://localhost:4000/api/file/' + file._id} target="_blank" download>
+                    <IconButton>
+                      <GetAppIcon />
+                    </IconButton>
+                  </a>
                 </Paper>
             </Grid>
             )

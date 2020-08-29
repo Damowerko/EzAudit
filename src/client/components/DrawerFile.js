@@ -49,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
   },
   mb: {
     marginBottom: '1rem'
+  },
+  underline: {
+    textDecoration: 'underline'
   }
 }));
 
@@ -98,26 +101,27 @@ export default function DrawerFile({ openDrawer, handleDrawerClose, drawerData, 
           {drawerData.date}
         </Typography>
 
-        <Typography variant="h6">
+        <Typography className={classes.underline} variant="h6">
           Comments
         </Typography>
         {drawerData.comments && ( drawerData.comments.map((comment, index) => {
           return (
             <Typography paragraph key={index}>
-              {comment.text}
+              - {comment.text}
             </Typography>
           )})
         )}
         
         <TextField
           className={classes.mb}
+          size="small"
           label="Add Comment"
           variant="outlined"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           onKeyPress={e => e.key === "Enter" ? addComment(drawerData._id) : null} />
 
-        <Typography variant="h6">
+        <Typography className={classes.underline} variant="h6">
           Tags
         </Typography>
         <Box>

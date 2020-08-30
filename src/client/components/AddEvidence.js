@@ -70,7 +70,7 @@ export default function AddEvidence({setValue}) {
   const [comment, setComment] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [openUpload, setOpenUpload] = React.useState(false);
-  const [filesList, setFilesList] = React.useState([]);
+  //const [filesList, setFilesList] = React.useState([]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -86,11 +86,11 @@ export default function AddEvidence({setValue}) {
 
   const handleFileSave = async files => {
     //Saving files to state for further use and closing Modal.
-    setFilesList(files);
+    //setFilesList(files);
     const formData = new FormData();
     formData.append('file', files[0]);
 
-    const data = await axios.post('http://localhost:4000/api/file', formData);
+    await axios.post('http://localhost:4000/api/file', formData);
     setOpenUpload(false);
     setValue(0);
   }

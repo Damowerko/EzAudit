@@ -8,8 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 
 import GetAppIcon from '@material-ui/icons/GetApp';
 
-import Document from '../images/document.png';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -40,7 +38,7 @@ export default function Evidence({ files, handleDrawerOpen }) {
                       {file.originalname}
                     </Typography>
                   </Button>
-                  <a href={'http://localhost:4000/api/file/' + file._id} target="_blank" download>
+                  <a href={'http://localhost:4000/api/file/' + file._id} target="_blank" rel="noopener noreferrer" download>
                     <IconButton>
                       <GetAppIcon />
                     </IconButton>

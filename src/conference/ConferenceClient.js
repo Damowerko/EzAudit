@@ -89,6 +89,7 @@ export default class ConferenceClient {
     this.localStream = new MediaStream();
     this.remoteStream = new MediaStream();
     this.muted = {video: true, audio: false};
+    this.onHost = null;
 
     navigator.mediaDevices
       .getUserMedia({
@@ -108,6 +109,7 @@ export default class ConferenceClient {
     // init event handlers
     this.socket.on("message", this.handleMessage.bind(this));
     this.socket.on("peers", this.handlePeers.bind(this));
+    this.socket.on("host", this.onHost());
   }
 
   join() {
@@ -118,6 +120,10 @@ export default class ConferenceClient {
         console.log(`Local Peer Id: ${id}`);
       });
     }, 1000);
+  }
+
+  requestHost() {
+    this.socket.emit("host");
   }
 
   setMuted({audio, video}) {

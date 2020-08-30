@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import ConferenceClient from "../../conference/ConferenceClient";
 import config from "../../config";
 import {makeStyles} from "@material-ui/core/styles";
-import ConferencePanel from "./ConferencePanel";
+import {ConferencePanel, ButtonTypes} from "./ConferencePanel";
 import {setIn} from "formik";
 
 const useStyles = makeStyles({
@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     height: "100%",
   },
   videoCall: {
-    "background-color": "dimgrey",
+    "background-color": "black",
   },
   video: {
     width: "100%",
@@ -30,11 +30,12 @@ export default function VideoCall() {
   const video = React.createRef();
   const classes = useStyles();
   const [muted, setMuted] = useState({video: true, audio: false});
+  const [recording, setRecording] = useState(false);
+  const [pointerEnabled, setPointerEnabled] = useState(false);
 
   React.useEffect(
     function () {
       if (video.current) {
-        console.log(muted);
         video.current.srcObject = muted.video
           ? conferenceClient.remoteStream
           : conferenceClient.localStream;
@@ -43,19 +44,59 @@ export default function VideoCall() {
     [video, muted],
   );
 
+  function startRecord() {
+    // TODO: return true if recording started else false
+  }
+
+  function stopRecord() {
+    // TODO: return false if recording ended else true
+  }
+
+  function onClick(type) {
+    switch (type) {
+      case ButtonTypes.MUTE_VIDEO:
+        setMuted((prevState) => ({...prevState, video: !prevState.video}));
+        break;
+      case ButtonTypes.MUTE_AUDIO:
+        setMuted((prevState) => ({...prevState, audio: !prevState.audio}));
+        break;
+      case ButtonTypes.SWITCH_CAMERA:
+        // TODO
+        break;
+      case ButtonTypes.SCREENSHOT:
+        // TODO
+        break;
+      case ButtonTypes.RECORD:
+        setRecording((prevState) => (prevState ? stopRecord() : startRecord()));
+        break;
+      case ButtonTypes.POINTER:
+        setPointerEnabled((prevState) => !prevState);
+        break;
+      default:
+        console.error(`Unhandled ButtonType ${type}`);
+    }
+  }
+
   return (
     <div className={`${classes.fillParent} ${classes.videoCall}`}>
       <ConferencePanel
         minimizable={true}
-        conferenceClient={conferenceClient}
         muted={muted}
-        setMuted={setMuted}
+        recording={recording}
+        pointerEnabled={pointerEnabled}
+        onClick={onClick}
       />
-      {/*<img*/}
-      {/*  className={classes.video}*/}
-      {/*  src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"*/}
-      {/*/>*/}
-      <video className={classes.video} ref={video} autoPlay />
+      <video
+        className={classes.video}
+        ref={video}
+        autoPlay
+        onMouseMove={(event) => {
+          if (pointerEnabled) {
+            const position = [event.offsetX, event.offsetY];
+            // TODO
+          }
+        }}
+      />
     </div>
   );
 }

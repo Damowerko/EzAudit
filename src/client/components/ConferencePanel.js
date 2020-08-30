@@ -9,14 +9,13 @@ import {
   Mic,
   Videocam,
   Mouse,
-  MouseOutlined,
+  MouseOutlined, FiberManualRecordOutlined,
 } from "@material-ui/icons";
 import React, {useEffect, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import TransitionStack from "./TransitionStack";
 import Zoom from "@material-ui/core/Zoom";
-import {setIn} from "formik";
 
 const useStyles = makeStyles({
   buttonPanel: {
@@ -30,25 +29,21 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ConferencePanel({
-  conferenceClient,
-  minimizable,
-  muted,
-  setMuted,
-}) {
+export const ButtonTypes = {
+  MUTE_AUDIO: "MUTE_AUDIO",
+  MUTE_VIDEO: "MUTE_VIDEO",
+  SWITCH_CAMERA: "SWITCH_CAMERA",
+  SCREENSHOT: "SCREENSHOT",
+  RECORD: "RECORD",
+  POINTER: "POINTER",
+};
+
+export function ConferencePanel({minimizable, muted, recording, pointerEnabled, onClick}) {
   const [minimized, setMinimized] = useState(minimizable);
-  const [pointerEnabled, setPointerEnabled] = useState(false);
 
   useEffect(() => {
     setMinimized(minimizable);
   }, [minimizable]);
-
-  React.useEffect(
-    function () {
-      conferenceClient.setMuted(muted);
-    },
-    [conferenceClient, muted],
-  );
 
   const classes = useStyles();
 
@@ -58,24 +53,22 @@ export default function ConferencePanel({
         {minimized ? <Add /> : <Remove />}
       </Fab>
       <TransitionStack transition={<Zoom in={!minimized} />} delay={50}>
-        <Fab
-          onClick={() => setMuted((prev) => ({...prev, video: !prev.video}))}>
+        <Fab onClick={() => onClick(ButtonTypes.MUTE_VIDEO)}>
           {muted.video ? <VideocamOff /> : <Videocam />}
         </Fab>
-        <Fab
-          onClick={() => setMuted((prev) => ({...prev, audio: !prev.audio}))}>
+        <Fab onClick={() => onClick(ButtonTypes.MUTE_AUDIO)}>
           {muted.audio ? <MicOff /> : <Mic />}
         </Fab>
-        <Fab onClick={() => console.log("Switch Camera!")}>
+        <Fab onClick={() => onClick(ButtonTypes.SWITCH_CAMERA)}>
           <SwitchCamera />
         </Fab>
-        <Fab onClick={() => console.log("Screenshot!")}>
+        <Fab onClick={() => ButtonTypes.SCREENSHOT}>
           <PhotoCamera />
         </Fab>
-        <Fab onClick={() => console.log("Start recording!")}>
-          <FiberManualRecord />
+        <Fab onClick={() => ButtonTypes.RECORD}>
+          {recording ? <FiberManualRecord /> : <FiberManualRecordOutlined />}
         </Fab>
-        <Fab onClick={() => setPointerEnabled((prev) => !prev)}>
+        <Fab onClick={() => ButtonTypes.POINTER}>
           {pointerEnabled ? <Mouse /> : <MouseOutlined />}
         </Fab>
       </TransitionStack>

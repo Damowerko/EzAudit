@@ -21,15 +21,17 @@ const useStyles = makeStyles({
     "object-fit": "contain",
     "object-position": "center",
   },
-  pointer: ({pointerPosition}) => (pointerPosition !== null ? {
-    top: `${pointerPosition[0]}`,
-    left: `${pointerPosition[1]}`,
-    "border-radius": "50%",
-    width: "1rem",
-    height: "1rem",
-  } : {}),
+  pointer: ({pointerPosition}) =>
+    pointerPosition !== null
+      ? {
+          top: `${pointerPosition[0]}`,
+          left: `${pointerPosition[1]}`,
+          "border-radius": "50%",
+          width: "1rem",
+          height: "1rem",
+        }
+      : {},
 });
-
 
 const conferenceClient = new ConferenceClient(`https://${config.ip}:3000`);
 
@@ -50,10 +52,14 @@ export default function VideoCall() {
     );
   }, []);
 
+  useEffect(() => conferenceClient.setMuted(muted), [muted]);
+
   useEffect(
     function () {
-      if (videoRef.current && !videoRef.current.srcObject) {
-        videoRef.current.srcObject = conferenceClient.localStream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = muted.video
+          ? conferenceClient.remoteStream
+          : conferenceClient.localStream;
       }
     },
     [videoRef, muted],
@@ -137,16 +143,16 @@ export default function VideoCall() {
         className={classes.video}
         ref={videoRef}
         autoPlay
-        onMouseMove={(event) => {
-          if (pointerEnabled && videoRef.current) {
-            conferenceClient.sendData({
-              pointerPosition: [
-                event.offsetX / videoRef.current.width,
-                event.offsetY / videoRef.current.height,
-              ],
-            });
-          }
-        }}
+        // onMouseMove={(event) => {
+        //   if (pointerEnabled && videoRef.current) {
+        //     conferenceClient.sendData({
+        //       pointerPosition: [
+        //         event.offsetX / videoRef.current.width,
+        //         event.offsetY / videoRef.current.height,
+        //       ],
+        //     });
+        //   }
+        // }}
       />
       <div className={classes.pointer} ref={pointerRef} />
     </div>

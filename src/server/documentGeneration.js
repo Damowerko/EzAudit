@@ -88,4 +88,4 @@ async function generateCertificate(
   return await pdfDoc.save();
 }
 
-module.exports = { generateAgreement, generateCertificate };
+module.exports = { generateLicense, generateCertificate };

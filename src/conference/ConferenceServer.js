@@ -5,6 +5,7 @@ module.exports = class ConferenceServer {
     this.io = new SocketIoServer(server);
     this.peers = new Map();
     this.peersReverse = new Map();
+    this.lastHostChange = 0;
     this.io.sockets.on("connection", this.handleConnection.bind(this));
   }
 
@@ -12,6 +13,7 @@ module.exports = class ConferenceServer {
     socket.on("join", (callback) => this.handleJoin(socket, callback));
     socket.on("message", (data) => this.handleMessage(socket, data));
     socket.on("disconnect", () => this.deleteSocket(socket));
+    socket.on("host", () => this.handleHost(socket));
   }
 
   addSocket(socket) {
@@ -57,12 +59,17 @@ module.exports = class ConferenceServer {
     if (toSocket) toSocket.send(data);
   }
 
+  handleHost(fromSocket) {
+    if (Date.now() - this.lastHostChange > 1000) {
+      this.io.sockets.emit("host", this.peersReverse.get(fromSocket));
+    }
+  }
+
   sendPeers() {
     const peerIds = [...this.peers.keys()];
     console.log(`Peer Ids: ${peerIds}`);
     for (const socket of this.peers.values()) {
       socket.emit("peers", peerIds);
     }
-    // this.io.sockets.emit("peers", peerIds);
   }
 };

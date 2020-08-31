@@ -6,14 +6,9 @@ const fs = require("fs");
 const path = require("path");
 const util = require("util");
 const {File} = require("./models");
+const {runAsync} = require("./util");
 
 const FILES_DIR = path.join(__dirname, "../../files");
-
-function runAsync(callback) {
-  return function (req, res, next) {
-    callback(req, res, next).catch(next);
-  };
-}
 
 const upload = multer({
   storage: multer.diskStorage({
